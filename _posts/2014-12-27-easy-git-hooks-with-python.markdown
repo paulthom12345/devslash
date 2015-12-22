@@ -26,10 +26,13 @@ Today we're going to delve into the client side git hooks. They come in several 
 Unsurprisingly we have a small sidebar for the Windows users to get this working. As windows doesn't recognise the [shebang](http://en.wikipedia.org/wiki/Shebang_%28Unix%29) (#!) at the start of a file we will only have the option of writing the git hook in a way that `cmd.exe` will understand. So to get started we create this small file in your base directory of your poject.
 
 **.git/hooks/commit-msg**
-```language-bash
+
+~~~
 #!/bin/sh
 python .git/hooks/commit-message.py
-```
+~~~
+{: .language-bash}
+
 This file can still be used on Linux/Mac (as to why we've put the shebang in the start still). This will then mean that before any commit is created and placed in the git log the `pre-commit-hook.py` file will run. The return code for the python script will then be used as the overall return code for the script.
 
 In all further references to `.git/hooks/commit-msg` you can assume we're talking about `.git/hooks/commit-msg.py` if you're using Windows.
@@ -38,7 +41,8 @@ In all further references to `.git/hooks/commit-msg` you can assume we're talkin
 So lets open up our python file and create a small tool that will perform some basic action for us. 
 
 **.git/hooks/commit-msg**
-```language-python
+
+~~~
 #!/usr/bin/env python
 
 import sys
@@ -46,23 +50,27 @@ import sys
 print "Starting commit-msg hook"
 
 sys.exit(0)
-```
+~~~
+{: .language-python}
 
 This example will exit with a system code of 0. Zero indicates success, any non zero value will indicate that the commit is unsuccesful. When creating a commit now we will get the following output:
-```language-shell
+
+~~~
 paul@laptop ~/gitProjects/easygitwithpython $ git add *
 paul@laptop ~/gitProjects/easygitwithpython $ git commit -m "Hi there"
 Starting pre-commit hook
 [master b5254f4] Starting commit-msg hook
  1 file changed, 1 insertion(+), 1 deletion(-)
 paul@laptop ~/gitProjects/easygitwithpython $ 
-```
+~~~
+{: .language-shell}
 
 ###Getting more useful
 We can extend our previous example to make use of the commit data. An example of this is making sure that a commit message is above a certain length and matches a regular expression for a JIRA issue.
 
 **.git/hooks/commit-msg**
-```language-python
+
+~~~
 import sys, re
 
 #Required parts 
@@ -83,11 +91,14 @@ if re.search(requiredRegex, commitMessage) is not None:
 
 print "Commit message is validated"
 sys.exit(0)
-```
+~~~
+{: .language-python}
+
 The prepare-commit-msg git hook will have a single argument, that is a file reference to the commit message that has been set. This hook runs before the commit has fully been validated and as such a non-zero return code will still cause the git commit to fail. 
 
 You can see the following confirmation of this hook
-```language-base
+
+~~~
 paul@laptop ~/gitProjects/easygitwithpython $ git commit -m "short"
 Commit message is less than the required 15 characters.
 paul@laptop ~/gitProjects/easygitwithpython $ git commit -m "A long message, no JIRA issue"
@@ -97,15 +108,19 @@ Commit message is validated
 [master 0ecdd0d] A long message, with JIRA-123
  1 file changed, 1 insertion(+)
 paul@laptop ~/gitProjects/easygitwithpython $ 
-```
+~~~ 
+{: .language-shell}
 
 Another windows caveat. When using commit hooks that require passing through the argument to the Python file you'll need to have your prepare-commit-msg to pass through those arguments manually.
 
 **.git/hooks/commit-msg**
-```langauge-bash
+
+~~~
 #!/bin/sh
 python commit-msg.py $1
-```
+~~~
+{: .language-bash}
+
 This will pass through the first argument to Python and will get you to the same level that Unix systems are up to. 
 
 ### Using Server Side Hooks
