@@ -38,7 +38,7 @@ So to send a message between Alice and Bob we're first going to have to generate
 **Alice can share n with anyone. It's not secret.**
  - Compute `φ(n) = (p-1)(q-1) = 16 * 18 = 288`
  - Choose an number `e` such that `1 < e < φ(n)`
-  -  `gcd(e, φ(n) = 1` therefore `e` and `¤å(n)` are coprime 
+  -  `gcd(e, φ(n) = 1` therefore `e` and `φ(n)` are coprime 
   - Our example `e = 11`<br/>
  __Alice can share e with anyone. It's not secret.__
  - Determine <code>d = e<sup>-1</sup> mod φ(n)</code>
@@ -377,7 +377,7 @@ The problem of [Integer Factorisation](http://en.wikipedia.org/wiki/Integer_fact
 
 n = <span id='p'></span> x <span id='q'></span> = <span id='ans'></span>
 
-¤å(n) = (<span id='pine'></span>-1)(<span id='qine'></span>-1) = <span id='secresult'></span>
+φ(n) = (<span id='pine'></span>-1)(<span id='qine'></span>-1) = <span id='secresult'></span>
 
 Now we need to choose 1 < **e** < φ(n) and gcd(e, φ(n)) = 1;
 We'll choose a common e that's used. That being  65,537 which is 2<sup>16</sup>+1
