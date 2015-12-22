@@ -36,34 +36,35 @@ So to send a message between Alice and Bob we're first going to have to generate
  - **Alice** Computes n `n = p * q`<br/> 
 **n** = 17 * 19 = 323 <br/>
 **Alice can share n with anyone. It's not secret.**
- - Compute `¤å(n) = (p-1)(q-1) = 16 * 18 = 288`
- - Choose an number `e` such that `1 < e < ¤å(n)`
-  -  `gcd(e, ¤å(n) = 1` therefore `e` and `¤å(n)` are coprime 
+ - Compute `φ(n) = (p-1)(q-1) = 16 * 18 = 288`
+ - Choose an number `e` such that `1 < e < φ(n)`
+  -  `gcd(e, φ(n) = 1` therefore `e` and `¤å(n)` are coprime 
   - Our example `e = 11`<br/>
  __Alice can share e with anyone. It's not secret.__
- - Determine <code>d = e<sup>-1</sup> mod ¤å(n)</code>
+ - Determine <code>d = e<sup>-1</sup> mod φ(n)</code>
   - <code>d = 11<sup>-1</sup> mod(288)</code>
   - Our example makes `d = 131`
  
 With these numbers we can now make our set of public/private keys. 
 
 ####Public Key
-A public key is made up of **n** and **e**. **n** being the multiplication of the two large prime numbers and **e** being a number between 1 and 288 that had a greatest common divisor with 288 as 1. Often you're fine to just choose a random prime, but do test that `gcd(e, ¤å(n)) = 1` is true.  
+A public key is made up of **n** and **e**. **n** being the multiplication of the two large prime numbers and **e** being a number between 1 and 288 that had a greatest common divisor with 288 as 1. Often you're fine to just choose a random prime, but do test that `gcd(e, φ(n)) = 1` is true.  
 
 <span class='emphasize'>**Alice's** public key is (323, 11)
 
 ####Private Key
-Alice's private key is first of all made up with the same **n** that her public key was made from. The difference is that the other number used for the key is **d**. This number was the multiplicative inverse of `e (modulo ¤å(n))`. We'll go into why this works a bit later but for now you can just solve the equation <code>d = e<sup>-1</sup> mod(288)</code>. This is done through the Extended Euclid's Algorithm (see below). 
+Alice's private key is first of all made up with the same **n** that her public key was made from. The difference is that the other number used for the key is **d**. This number was the multiplicative inverse of `e (modulo φ(n))`. We'll go into why this works a bit later but for now you can just solve the equation <code>d = e<sup>-1</sup> mod(288)</code>. This is done through the Extended Euclid's Algorithm (see below). 
 
 <span class='emphasize'>**Alice's** private key is (323, 131)
 
 ####How to use them
 
 This is where Bob comes in. Bob wants to send Alice the message: `you should not trust eve`. First Bob knows that any message that he sends must be of an integer value less than `n`. In this case any message must be less than `228`. This counts as `11100100` in binary. So therefore we can set an easy upper bound on only transmitting 7 bits at a time. So lets make our string!
-```
+
+~~~
 >>> ' '.join(format(ord(x), 'b') for x in "you should not trust eve")
 '1111001 1101111 1110101 100000 1110011 1101000 1101111 1110101 1101100 1100100 100000 1101110 1101111 1110100 100000 1110100 1110010 1110101 1110011 1110100 100000 1100101 1110110 1100101'
-```
+~~~
 
 ###Encoding using the Public Key
 Lets take our first message to send `1111001` and convert it to decimal. Once a decimal we will be able to encode it using the following equation.
@@ -378,14 +379,14 @@ n = <span id='p'></span> x <span id='q'></span> = <span id='ans'></span>
 
 ¤å(n) = (<span id='pine'></span>-1)(<span id='qine'></span>-1) = <span id='secresult'></span>
 
-Now we need to choose 1 < **e** < ¤å(n) and gcd(e, ¤å(n)) = 1;
+Now we need to choose 1 < **e** < φ(n) and gcd(e, φ(n)) = 1;
 We'll choose a common e that's used. That being  65,537 which is 2<sup>16</sup>+1
 
 
 
 <b>Values</b><br/>
 <b>N:</b><span id='ansn'></span><br/>
-<b>¤å(n):</b><span id='ansg'></span><br/>
+<b>φ(n):</b><span id='ansg'></span><br/>
 <b>E:</b>65537<br/>
 <b>D:</b><span id='ansd'></span>
 
