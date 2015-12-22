@@ -2,6 +2,7 @@
 layout: post
 title: Testing With Gradle
 date: '2014-12-22 08:51:00'
+comments: true
 ---
 
 

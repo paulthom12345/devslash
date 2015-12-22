@@ -2,6 +2,7 @@
 layout: post
 title: Woops & Ghost
 date: '2014-12-22 08:18:51'
+comments: true
 ---
 
 ###Whoops

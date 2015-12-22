@@ -2,6 +2,7 @@
 layout: post
 title: Git Hooks with Python
 date: '2014-12-27 03:14:30'
+comments: true
 ---
 
 [Git hooks](http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) have long provided the ability for you to validate commits, perform continuous integration, continuous deployment and any number of other arbitrary actions. 
